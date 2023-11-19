@@ -9,7 +9,7 @@ import { ApiCookieAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiCookieAuth('refreshToken')
 @ApiTags('Auth')
-@Controller('auth')
+@Controller('api/auth')
 export class AuthController {
   constructor(
     private readonly authservice: AuthService
@@ -55,13 +55,13 @@ export class AuthController {
     status: HttpStatus.OK
   })
   async refreshToken(@Req() req: Request): Promise<LoginResponse> {
-    if (!req.cookies.refresh_token) {
+    if (!req.cookies.refreshToken) {
       throw new HttpException(
         `Unauthorized`,
         HttpStatus.UNAUTHORIZED,
       );
     }
-    const refreshToken = req.cookies.refresh_token.trim();
+    const refreshToken = req.cookies.refreshToken.trim();
     const user = await this.authservice.validateAndDecodeJwt(refreshToken);
     return this.authservice.refreshToken(user.sub, refreshToken);
   }
@@ -70,13 +70,7 @@ export class AuthController {
   @Post('logout')
   @HttpCode(HttpStatus.OK)
   async logout(@Req() req: Request): Promise<void> {
-    if (!req.cookies.refresh_token) {
-      throw new HttpException(
-        `Unauthorized`,
-        HttpStatus.UNAUTHORIZED,
-      );
-    }
-    const refreshToken = req.cookies.refresh_token;
-    return this.authservice.logout(refreshToken);
+    const user = req.user;
+    return this.authservice.logout(user['sub']);
   }
 }

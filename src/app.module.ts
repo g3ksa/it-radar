@@ -4,6 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ormconfig } from 'ormconfig';
 import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './auth/auth.module';
+import { ReviewsModule } from './reviews/reviews.module';
+import { CoursesModule } from './courses/courses.module';
 
 
 @Module({
@@ -15,6 +17,8 @@ import { AuthModule } from './auth/auth.module';
     }),
     DatabaseModule,
     AuthModule,
+    ReviewsModule,
+    CoursesModule,
 ],
   controllers: [],
   providers: [],

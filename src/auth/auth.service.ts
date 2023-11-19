@@ -118,6 +118,7 @@ export class AuthService {
       const validToken = await this.jwtService.verify(token, {
         secret: process.env.rtSecret,
       });
+      console.log(validToken)
       return this.jwtService.decode(token);
     } catch (err) {
       throw new HttpException('Incorrect token', HttpStatus.FORBIDDEN);
@@ -148,10 +149,8 @@ export class AuthService {
     return response;
   }
 
-  async logout(refreshToken: string) {
-    const user = this.validateAndDecodeJwt(refreshToken)
-    await this.userRepository.save({
-      ...user,
+  async logout(userId: number) {
+    await this.userRepository.update({id: userId}, {
       hashedRt: null,
     })
   }
