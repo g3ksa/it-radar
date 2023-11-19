@@ -1,0 +1,34 @@
+version: '3.7'
+
+networks:
+  nodejs:
+    name: "nodejs"
+    driver: overlay
+    attachable: true
+    external: true
+
+services:    
+  server:
+    image: server:latest
+    build:
+      dockerfile: ./Dockerfile
+    command: npm run start:prod
+    container_name: "server"
+    environment:
+      PORT:
+      MODE:
+      DB_USER:
+      DB_PASSWORD:
+      DB_HOST:
+      DB_NAME:
+      atSecret:
+      rtSecret:
+    ports:
+      - 5000:5000
+    networks:
+      - nodejs
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
