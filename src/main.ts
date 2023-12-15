@@ -19,7 +19,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe)
   app.useGlobalGuards();
   app.use(cookieParser());
-  app.enableCors({credentials: true, origin: ["http://localhost:3000"]});
+  app.enableCors({ credentials: true, origin: ["http://localhost:3000"] });
   app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
@@ -31,6 +31,9 @@ async function bootstrap() {
   app.enableCors({
     origin: "http://localhost:3000",
     credentials: true
+  });
+  await app.listen(PORT, () => {
+    console.log(`Server started on PORT ${PORT}, in ${process.env.MODE} mode`)
   });
 }
 bootstrap();
