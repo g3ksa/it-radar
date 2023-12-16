@@ -9,6 +9,7 @@ import {
 import { Review } from '../review/review.entity';
 import { Company } from '../company/company.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { KeyPhrase } from '../keyPhrase/keyPhrase.entity';
 
 @Entity('Courses')
 export class Course {
@@ -47,4 +48,8 @@ export class Course {
   @ManyToOne(() => Company, (company) => company.id)
   @ApiProperty({ type: () => Company, description: 'Course company' })
   company: Company;
+
+  @OneToMany(() => KeyPhrase, (keyPhrase) => keyPhrase.id)
+  @ApiProperty({ type: () => KeyPhrase, isArray: true })
+  keyPhrases: Array<Review>;
 }

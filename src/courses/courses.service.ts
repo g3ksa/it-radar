@@ -6,9 +6,9 @@ import { GetCoursesQuery } from './models/getCoursesQuery';
 
 @Injectable()
 export class CoursesService {
-  constructor (
+  constructor(
     @InjectRepository(Course)
-    private readonly coursesRepository: Repository<Course>
+    private readonly coursesRepository: Repository<Course>,
   ) {}
 
   async findAll(query: GetCoursesQuery): Promise<Course[]> {
@@ -16,16 +16,17 @@ export class CoursesService {
       return this.coursesRepository.find({
         where: {
           company: {
-            id: query.companyId
-          }
+            id: query.companyId,
+          },
         },
         relations: {
           company: true,
           reviews: {
-            author: true
-          }
-        }
-      })
+            author: true,
+          },
+          keyPhrases: true,
+        },
+      });
     }
     return this.coursesRepository.find();
   }

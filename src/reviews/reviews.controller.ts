@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { ReviewsService } from './reviews.service';
 import { ReviewDto } from './models/review.dto';
 import { Review } from 'src/database/entities/review/review.entity';
@@ -9,25 +19,23 @@ import { AuthGuard } from '@nestjs/passport';
 @Controller('api/reviews')
 @UseGuards(AuthGuard('jwt'))
 export class ReviewsController {
-  constructor(
-    private readonly reviewsService: ReviewsService
-  ) {}
+  constructor(private readonly reviewsService: ReviewsService) {}
 
   @Post('/create')
   @ApiOkResponse({
     description: 'Create review',
     type: Review,
-    status: HttpStatus.CREATED
+    status: HttpStatus.CREATED,
   })
   async createReview(@Body() req: ReviewDto): Promise<Review> {
     return this.reviewsService.createReview(req);
   }
-  
+
   @Post('/edit')
   @ApiOkResponse({
     description: 'Edit review',
     type: Review,
-    status: HttpStatus.OK
+    status: HttpStatus.OK,
   })
   async editReview(@Body() req: ReviewDto): Promise<Review> {
     return this.reviewsService.editReview(req);
@@ -37,7 +45,7 @@ export class ReviewsController {
   @ApiOkResponse({
     description: 'Delete review',
     type: Review,
-    status: HttpStatus.OK
+    status: HttpStatus.OK,
   })
   async deleteReview(@Param('id') id: number): Promise<any> {
     return this.reviewsService.deleteReview(id);
@@ -47,7 +55,7 @@ export class ReviewsController {
   @ApiOkResponse({
     description: 'Get one review',
     type: Review,
-    status: HttpStatus.OK
+    status: HttpStatus.OK,
   })
   async getOneReview(@Param('id') id: number): Promise<Review> {
     return this.reviewsService.getOneReview(id);
@@ -58,9 +66,11 @@ export class ReviewsController {
     description: 'Get all reviews by course id',
     type: Review,
     status: HttpStatus.OK,
-    isArray: true
+    isArray: true,
   })
-  async getAllByCourseId(@Query('courseId') courseId: number): Promise<Review[]> {
+  async getAllByCourseId(
+    @Query('courseId') courseId: number,
+  ): Promise<Review[]> {
     return this.reviewsService.getAllByCourseId(courseId);
   }
 }
