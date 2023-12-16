@@ -1,45 +1,50 @@
-import { Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Category } from "../category/category.entity";
-import { Review } from "../review/review.entity";
-import { Company } from "../company/company.entity";
-import { ApiProperty } from "@nestjs/swagger";
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Review } from '../review/review.entity';
+import { Company } from '../company/company.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity('Courses')
 export class Course {
   @PrimaryGeneratedColumn()
   @ApiProperty({ type: Number, description: 'Course id' })
-  id: number
+  id: number;
 
-  @Column()
-  @ApiProperty({ type: String, description: 'Course name' })
-  name: string
+  @Column({ nullable: true })
+  @ApiProperty({ type: 'text', description: 'Course name' })
+  name: string;
 
-  @Column()
+  @Column({ nullable: true })
   @ApiProperty({ type: String, description: 'Course description' })
-  description: string
+  description: string;
 
-  @Column()
+  @Column({ nullable: true })
   @ApiProperty({ type: Number, description: 'Course price' })
-  price: number
+  price: number;
 
-  @Column()
+  @Column({ nullable: true })
   @ApiProperty({ type: Number, description: 'Course time frame' })
-  timeframe: number
+  timeframe: number;
 
-  @ManyToMany(() => Category, category => category.code, 
-    {
-      cascade: true,
-      nullable: true
-    }
-  )
-  @ApiProperty({ type: Category, description: 'Course categories', isArray: true })
-  categories: Array<Category>
+  @Column({ nullable: true, type: 'real' })
+  @ApiProperty({ type: Number, description: 'Course rating' })
+  rating: number;
 
-  @OneToMany(() => Review, review => review.id)
-  @ApiProperty({ type: () => Review, description: 'Course reviews', isArray: true })
-  reviews: Array<Review>
+  @OneToMany(() => Review, (review) => review.id)
+  @ApiProperty({
+    type: () => Review,
+    description: 'Course reviews',
+    isArray: true,
+  })
+  reviews: Array<Review>;
 
-  @ManyToOne(() => Company, company => company.id)
+  @ManyToOne(() => Company, (company) => company.id)
   @ApiProperty({ type: () => Company, description: 'Course company' })
-  company: Company
+  company: Company;
 }
