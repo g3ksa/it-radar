@@ -21,13 +21,24 @@ export class CoursesService {
         },
         relations: {
           company: true,
-          reviews: {
-            author: true,
-          },
-          keyPhrases: true,
         },
       });
     }
     return this.coursesRepository.find();
+  }
+
+  async findOne(courseId: number): Promise<Course> {
+    return this.coursesRepository.findOne({
+      where: {
+        id: courseId,
+      },
+      relations: {
+        company: true,
+        reviews: {
+          author: true,
+        },
+        keyPhrases: true,
+      },
+    });
   }
 }

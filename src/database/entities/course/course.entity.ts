@@ -37,19 +37,19 @@ export class Course {
   @ApiProperty({ type: Number, description: 'Course rating' })
   rating: number;
 
-  @OneToMany(() => Review, (review) => review.id)
+  @OneToMany(() => Review, (review) => review.course)
   @ApiProperty({
     type: () => Review,
     description: 'Course reviews',
     isArray: true,
   })
-  reviews: Array<Review>;
+  reviews: Review[];
 
   @ManyToOne(() => Company, (company) => company.id)
   @ApiProperty({ type: () => Company, description: 'Course company' })
   company: Company;
 
-  @OneToMany(() => KeyPhrase, (keyPhrase) => keyPhrase.id)
+  @OneToMany(() => KeyPhrase, (keyPhrase) => keyPhrase.course)
   @ApiProperty({ type: () => KeyPhrase, isArray: true })
-  keyPhrases: Array<Review>;
+  keyPhrases: KeyPhrase[];
 }

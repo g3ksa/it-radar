@@ -1,4 +1,11 @@
-import { Controller, Get, HttpStatus, Query, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpStatus,
+  Param,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { CoursesService } from './courses.service';
 import { Course } from 'src/database/entities/course/course.entity';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
@@ -19,5 +26,15 @@ export class CoursesController {
   })
   async find(@Query() query: GetCoursesQuery): Promise<Array<Course>> {
     return this.coursesService.findAll(query);
+  }
+
+  @Get(':id')
+  @ApiOkResponse({
+    description: 'Get one course',
+    type: Course,
+    status: HttpStatus.OK,
+  })
+  async findOne(@Param('id') id: number): Promise<Course> {
+    return this.coursesService.findOne(id);
   }
 }
